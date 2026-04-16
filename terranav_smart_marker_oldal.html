@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terranav DT-1 Smart Marker – Hordozható GNSS területmérő | Agrobook</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:       #2d6a2d;
+  --green-mid:   #3a8c3a;
+  --green-light: #4caf50;
+  --green-pale:  #e8f4e8;
+  --green-dark:  #1e4d1e;
+  --gold:        #c8922a;
+  --gold-light:  #f5e4c0;
+  --dark:        #1a1a1a;
+  --mid:         #4a4a4a;
+  --muted:       #777;
+  --border:      #d8d8d0;
+  --light:       #f7f7f5;
+  --white:       #ffffff;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  color: var(--dark);
+  background: var(--white);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  background: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.nav-tabs a {
+  display: block;
+  padding: 14px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-mid) 100%);
+  color: var(--white);
+  padding: 64px 2rem 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,0.06) 0%, transparent 60%);
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+.hero .sub {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  font-weight: 400;
+  margin-bottom: 28px;
+}
+.hero .accuracy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.hero .accuracy span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #a8e6a8;
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 64px 2rem;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.section-full {
+  padding: 64px 2rem;
+}
+.section-full .inner {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+.section-line {
+  width: 48px;
+  height: 3px;
+  background: var(--green);
+  border-radius: 2px;
+  margin-bottom: 32px;
+}
+
+/* ── INTRO ── */
+.intro-block {
+  background: var(--green-pale);
+  border-left: 5px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 24px 28px;
+  margin-bottom: 48px;
+  font-size: 1rem;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+/* ── FEATURE CARDS (4 icons) ── */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 0;
+}
+.feat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 22px;
+  text-align: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.feat-card:hover {
+  box-shadow: 0 6px 24px rgba(45,106,45,0.12);
+  transform: translateY(-3px);
+}
+.feat-card .icon {
+  width: 52px;
+  height: 52px;
+  background: var(--green-pale);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 22px;
+}
+.feat-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.feat-card p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── BENEFITS (numbered) ── */
+.benefits-bg {
+  background: var(--light);
+}
+.benefit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.benefit-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+  padding: 32px 0;
+}
+.benefit-item:last-child { border-bottom: none; }
+.benefit-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--green-pale);
+  line-height: 1;
+  padding-top: 4px;
+  -webkit-text-stroke: 2px var(--green);
+  text-stroke: 2px var(--green);
+}
+.benefit-content h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--green-dark);
+  margin-bottom: 10px;
+}
+.benefit-content p {
+  font-size: 0.95rem;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+/* ── USE CASES ── */
+.use-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.use-card {
+  background: var(--green);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: background 0.2s;
+}
+.use-card:hover { background: var(--green-mid); }
+.use-card .use-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  display: block;
+}
+.use-card p {
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+}
+
+/* ── SPECS TABLE ── */
+.specs-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 640px) { .specs-wrap { grid-template-columns: 1fr; } }
+.spec-group h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0ec;
+  font-size: 0.9rem;
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-row .label { color: var(--muted); font-weight: 500; }
+.spec-row .val { color: var(--dark); font-weight: 600; text-align: right; }
+
+/* ── FAQ ── */
+.faq-list { list-style: none; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--dark);
+  list-style: none;
+  gap: 16px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.4rem;
+  color: var(--green);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+  padding: 0 0 18px;
+  font-size: 0.92rem;
+  color: var(--mid);
+  line-height: 1.65;
+}
+
+/* ── CTA BAND ── */
+.cta-band {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  color: var(--white);
+  text-align: center;
+  padding: 56px 2rem;
+}
+.cta-band h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.cta-band p {
+  opacity: 0.85;
+  margin-bottom: 28px;
+  font-size: 1rem;
+}
+.cta-band .btn {
+  display: inline-block;
+  background: var(--white);
+  color: var(--green);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+.cta-band .btn:hover { background: var(--green-pale); }
+.cta-band .contact-row {
+  margin-top: 20px;
+  font-size: 0.88rem;
+  opacity: 0.8;
+}
+.cta-band .contact-row a { color: #a8e6a8; text-decoration: none; font-weight: 600; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .nav-tabs { padding: 0 0.5rem; overflow-x: auto; }
+  .nav-tabs a { padding: 12px 14px; font-size: 11px; }
+  .benefit-item { grid-template-columns: 50px 1fr; }
+  .benefit-num { font-size: 2rem; }
+  .hero { padding: 48px 1rem 40px; }
+  .section { padding: 48px 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigációs tabsáv -->
+<nav class="nav-tabs">
+  <a href="#highlights" class="active">Főbb jellemzők</a>
+  <a href="#benefits">Előnyök</a>
+  <a href="#usecases">Felhasználás</a>
+  <a href="#specs">Műszaki adatok</a>
+  <a href="#faq">GYIK</a>
+</nav>
+
+<!-- Hero szekció -->
+<div class="hero">
+  <div class="badge">Terranav · GNSS · Precíziós gazdálkodás</div>
+  <h1>DT-1 Smart Marker</h1>
+  <p class="sub">Hordozható GNSS területmérő és irányvonal-rögzítő</p>
+  <div class="accuracy">
+    Pontosság: <span>≤ 2,5 cm</span> &nbsp;·&nbsp; Traktoros bejárás nélkül
+  </div>
+</div>
+
+<!-- Highlights szekció -->
+<div id="highlights" class="section">
+  <div class="section-title">Főbb jellemzők</div>
+  <div class="section-line"></div>
+
+  <div class="intro-block">
+    A <strong>Terranav DT-1 Smart Marker</strong> egy precíz, hordozható GNSS vevőegység, amellyel kézi használat mellett rögzíthetők a mezőgazdasági irányvonalak, mezőhatárok és fontos terepi pontok – anélkül, hogy traktorral kellene bejárni a területet. Az integrált antenna, feldolgozó egység és Bluetooth modul lehetővé teszi, hogy az adatokat Androidos okostelefonon vagy PC-n, a <strong>Farmmaster szoftveren keresztül</strong> kezelje, és egyetlen kódmegosztással átadja az automata kormányrendszernek.
+  </div>
+
+  <!-- 4 funkció kártya -->
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="icon">📡</div>
+      <h3>Vezeték nélküli kapcsolat</h3>
+      <p>Bluetooth és NTRIP kapcsolat egyaránt támogatott – egyszerű, kábel nélküli adatátvitel.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">🔘</div>
+      <h3>Egyérintéses kezelés</h3>
+      <p>Egyetlen gomb biztosít hozzáférést az összes funkcióhoz – gyors és egyszerű terepen is.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">🗺️</div>
+      <h3>Sokoldalú funkciók</h3>
+      <p>Irányvonal- és határrögzítés, tereptárgy-jelölés és területmérés – egyetlen készülékben.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">☁️</div>
+      <h3>Többplatformos megosztás</h3>
+      <p>Az adatok felhőben tárolódnak, és megoszthatók Android eszközök, PC és Terranav automata kormányrendszer között.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Benefits szekció -->
+<div id="benefits" class="section-full benefits-bg">
+  <div class="inner">
+    <div class="section-title">Előnyök és teljesítmény</div>
+    <div class="section-line"></div>
+
+    <div class="benefit-list">
+
+      <div class="benefit-item">
+        <div class="benefit-num">01</div>
+        <div class="benefit-content">
+          <h3>Irányvonalak rögzítése és megosztása</h3>
+          <p>A DT-1 segítségével az irányvonalak közvetlenül, traktoros bejárás nélkül rögzíthetők a terepen. A rögzített vonalak felhőben tárolódnak, és automatikusan megosztásra kerülnek a Terranav automata kormányrendszerrel – ez üzemanyag-, idő- és munkamegtakarítást jelent minden munkamenet elején.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">02</div>
+        <div class="benefit-content">
+          <h3>Táblahatárok rögzítése és megosztása</h3>
+          <p>A táblahatárokat nem szükséges traktorral körüljárni – a DT-1 automatikusan kiszámítja a terület méretét, és a határokat felhőben tárolja. Egyszer kell felvenni, és az adat azonnal elérhető az összes Terranav kormányrendszeren, bármely traktornál.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">03</div>
+        <div class="benefit-content">
+          <h3>Precíz tereptárgy-jelölés</h3>
+          <p>A DT-1 pontosabban jelöli a tereptárgyakat, mint a hagyományos traktoros módszer. Fák, kövek, tűzcsapok és egyéb akadályok előre feltérképezhetők és felhőben tárolhatók – így a munkagép a munkavégzés során azonnal látja az akadályokat, csökkentve az ütközések és balesetek kockázatát.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-num">04</div>
+        <div class="benefit-content">
+          <h3>Adatmentés és megosztás</h3>
+          <p>A Farmmaster szoftveren keresztül az összes rögzített adat biztonságosan tárolódik a felhőben, és egyszerű kódmegosztással átadható más felhasználóknak vagy gépparkoknak. Az adatvesztés és -sérülés kockázata minimális, mivel az adatok nem csupán a készüléken, hanem felhőben is megtalálhatók.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Use Cases szekció -->
+<div id="usecases" class="section">
+  <div class="section-title">Felhasználási területek</div>
+  <div class="section-line"></div>
+
+  <div class="use-grid">
+    <div class="use-card">
+      <span class="use-icon">➡️</span>
+      <p>Irányvonal- és táblahatár-rögzítés</p>
+    </div>
+    <div class="use-card">
+      <span class="use-icon">🔗</span>
+      <p>Adatmegosztás géppark között</p>
+    </div>
+    <div class="use-card">
+      <span class="use-icon">📍</span>
+      <p>Tereptárgy- és akadályjelölés</p>
+    </div>
+    <div class="use-card">
+      <span class="use-icon">📐</span>
+      <p>Területmérés traktoros bejárás nélkül</p>
+    </div>
+  </div>
+</div>
+
+<!-- Specs szekció -->
+<div id="specs" class="section-full" style="background:var(--light);">
+  <div class="inner">
+    <div class="section-title">Részletes műszaki adatok</div>
+    <div class="section-line"></div>
+
+    <div class="specs-wrap">
+      <div class="spec-group">
+        <h4>Pozicionálás</h4>
+        <div class="spec-row"><span class="label">GNSS rendszerek</span><span class="val">Full GNSS (GPS, GLONASS, Galileo, BeiDou)</span></div>
+        <div class="spec-row"><span class="label">Maximális pontosság</span><span class="val">≤ 2,5 cm</span></div>
+        <div class="spec-row"><span class="label">Korrekció</span><span class="val">NTRIP / RTK</span></div>
+      </div>
+      <div class="spec-group">
+        <h4>Kapcsolódás</h4>
+        <div class="spec-row"><span class="label">Vezeték nélküli</span><span class="val">Bluetooth</span></div>
+        <div class="spec-row"><span class="label">Port</span><span class="val">USB Type-C</span></div>
+        <div class="spec-row"><span class="label">Hálózat</span><span class="val">NTRIP (mobilinterneten keresztül)</span></div>
+      </div>
+      <div class="spec-group">
+        <h4>Szoftver és megjelenítés</h4>
+        <div class="spec-row"><span class="label">Kijelző</span><span class="val">Okostelefon alkalmazás (Android)</span></div>
+        <div class="spec-row"><span class="label">Szoftver</span><span class="val">Terranav Farmmaster</span></div>
+        <div class="spec-row"><span class="label">Adattárolás</span><span class="val">Felhő alapú</span></div>
+      </div>
+      <div class="spec-group">
+        <h4>Általános adatok</h4>
+        <div class="spec-row"><span class="label">Gyártó</span><span class="val">Terranav (CHCNAV alapú)</span></div>
+        <div class="spec-row"><span class="label">Tömeg</span><span class="val">1 kg</span></div>
+        <div class="spec-row"><span class="label">Kompatibilitás</span><span class="val">Terranav automata kormányrendszerek</span></div>
+        <div class="spec-row"><span class="label">Szállítási idő</span><span class="val">1–3 munkanap</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ szekció -->
+<div id="faq" class="section">
+  <div class="section-title">Gyakori kérdések</div>
+  <div class="section-line"></div>
+
+  <ul class="faq-list">
+    <li class="faq-item">
+      <details>
+        <summary>Hogyan osztja meg a DT-1 az adatokat az automata kormányrendszerrel?</summary>
+        <p>A DT-1 által rögzített adatok a Farmmaster szoftveren keresztül Bluetooth segítségével szinkronizálódnak az okostelefonra, majd felhőbe töltődnek. Az adatok egy megosztási kóddal átadhatók a Terranav automata kormányrendszernek – egyszerűen és gyorsan.</p>
+      </details>
+    </li>
+    <li class="faq-item">
+      <details>
+        <summary>Milyen funkciókat biztosít a DT-1?</summary>
+        <p>A DT-1 lehetővé teszi az irányvonalak és táblahatárok rögzítését traktoros bejárás nélkül, területmérést, valamint tereptárgyak és akadályok pontos jelölését – mindez egyetlen kompakt eszközben.</p>
+      </details>
+    </li>
+    <li class="faq-item">
+      <details>
+        <summary>Más márkájú kormányrendszerekkel is használható?</summary>
+        <p>Nem. A DT-1 kizárólag Terranav (CHCNAV) automata kormányrendszerekkel kompatibilis, a Farmmaster felhőplatformon keresztül.</p>
+      </details>
+    </li>
+    <li class="faq-item">
+      <details>
+        <summary>Milyen irányvonaltípusokat támogat a DT-1?</summary>
+        <p>Jelenleg az AB vonalas irányvonal-rögzítés támogatott. A jövőbeli szoftverfrissítések további irányvonaltípusokat is be fognak hozni.</p>
+      </details>
+    </li>
+    <li class="faq-item">
+      <details>
+        <summary>Szükséges-e traktorral bejárni a táblát a határok rögzítéséhez?</summary>
+        <p>Nem – ez az eszköz egyik legfőbb előnye. A táblahatárokat és irányvonalakat gyalogosan is fel lehet venni a DT-1 segítségével, ami jelentős idő- és üzemanyag-megtakarítást jelent.</p>
+      </details>
+    </li>
+  </ul>
+</div>
+
+<!-- CTA sáv -->
+<div class="cta-band">
+  <h2>Érdekli a Terranav DT-1 Smart Marker?</h2>
+  <p>Kérjen árajánlatot vagy vegye fel velünk a kapcsolatot szakértőink segítségéért.</p>
+  <a href="https://www.agrobook.hu/ajanlatkeres" class="btn">Árajánlatot kérek</a>
+  <div class="contact-row">
+    📞 <a href="tel:+36703328935">+36 70 332 8935</a>
+    &nbsp;&nbsp;✉️ <a href="mailto:aruhaz@agrobook.hu">aruhaz@agrobook.hu</a>
+  </div>
+</div>
+
+<script>
+// Aktív tab kiemelés görgetésnél
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nav-tabs a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+
+</body>
+</html>
